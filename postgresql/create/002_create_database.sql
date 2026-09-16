@@ -1,1 +1,1 @@
-CREATE DATABASE payment_hub_db WITH OWNER = payment_app_user;
+CREATE DATABASE payment_system_db WITH OWNER = payment_app_user;
