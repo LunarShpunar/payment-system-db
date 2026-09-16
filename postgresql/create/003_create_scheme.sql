@@ -1,6 +1,6 @@
-\connect payment_hub_db;
+\connect payment_system_db;
 
-CREATE SCHEMA IF NOT EXISTS core_schema AUTHORIZATION payment_app_user;
-CREATE SCHEMA IF NOT EXISTS status_schema AUTHORIZATION payment_app_user;
-CREATE SCHEMA IF NOT EXISTS type_schema AUTHORIZATION payment_app_user;
-CREATE SCHEMA IF NOT EXISTS ref_schema AUTHORIZATION payment_app_user;
+CREATE SCHEMA IF NOT EXISTS core AUTHORIZATION payment_app_user;
+CREATE SCHEMA IF NOT EXISTS status AUTHORIZATION payment_app_user;
+CREATE SCHEMA IF NOT EXISTS type AUTHORIZATION payment_app_user;
+CREATE SCHEMA IF NOT EXISTS reference AUTHORIZATION payment_app_user;

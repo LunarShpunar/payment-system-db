@@ -1,4 +1,4 @@
-INSERT INTO ref_schema.ref_currency (name, alphabetic_code, numeric_code, decimals)
+INSERT INTO reference.ref_currency (name, alphabetic_code, numeric_code, decimals)
 VALUES ('Дирхам ОАЭ', 'AED', '784', 2),
        ('Афгани', 'AFN', '971', 2),
        ('Лек', 'ALL', '008', 2),
