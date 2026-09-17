@@ -1,3 +1,8 @@
+CREATE SCHEMA IF NOT EXISTS core;
+CREATE SCHEMA IF NOT EXISTS reference;
+CREATE SCHEMA IF NOT EXISTS status;
+CREATE SCHEMA IF NOT EXISTS "type";
+
 CREATE TABLE IF NOT EXISTS reference.ref_currency
 (
     id              bigint               NOT NULL GENERATED ALWAYS AS IDENTITY,
@@ -22,15 +27,15 @@ CREATE TABLE IF NOT EXISTS status.invoice_status
 
 CREATE TABLE IF NOT EXISTS status.merchant_status
 (
-    id                 bigint                NOT NULL GENERATED ALWAYS AS IDENTITY,
-    "version"          integer DEFAULT 0     NOT NULL,
-    code               varchar(128)          NOT NULL,
-    name               varchar(128)          NOT NULL,
-    is_active          boolean DEFAULT TRUE  NOT NULL,
+    id        bigint               NOT NULL GENERATED ALWAYS AS IDENTITY,
+    "version" integer DEFAULT 0    NOT NULL,
+    code      varchar(128)         NOT NULL,
+    name      varchar(128)         NOT NULL,
+    is_active boolean DEFAULT TRUE NOT NULL,
     CONSTRAINT pk_merchant_status PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS type.commission_type
+CREATE TABLE IF NOT EXISTS "type".commission_type
 (
     id        bigint               NOT NULL GENERATED ALWAYS AS IDENTITY,
     "version" integer DEFAULT 0    NOT NULL,
@@ -84,13 +89,13 @@ CREATE INDEX idx_invoices_merchant_created ON core.invoice (merchant_id, created
 
 CREATE TABLE IF NOT EXISTS core.commission_calc
 (
-    id                 bigint                                   NOT NULL GENERATED ALWAYS AS IDENTITY,
-    "version"          integer        DEFAULT 0                 NOT NULL,
-    invoice_id         bigint                                   NOT NULL,
-    commission_id      bigint                                   NOT NULL,
-    commission_amount  decimal(10, 2)                           NOT NULL,
-    created_at         timestamptz    DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    is_active          boolean        DEFAULT TRUE              NOT NULL,
+    id                bigint                                NOT NULL GENERATED ALWAYS AS IDENTITY,
+    "version"         integer     DEFAULT 0                 NOT NULL,
+    invoice_id        bigint                                NOT NULL,
+    commission_id     bigint                                NOT NULL,
+    commission_amount decimal(10, 2)                        NOT NULL,
+    created_at        timestamptz DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    is_active         boolean     DEFAULT TRUE              NOT NULL,
     CONSTRAINT pk_commission_calc PRIMARY KEY (id)
 );
 
@@ -101,7 +106,7 @@ ALTER TABLE core.commission
     ADD CONSTRAINT fk_commission_merchant FOREIGN KEY (merchant_id) REFERENCES core.merchant (id) ON DELETE RESTRICT;
 
 ALTER TABLE core.commission
-    ADD CONSTRAINT fk_commission_commission_type FOREIGN KEY (type_id) REFERENCES type.commission_type (id);
+    ADD CONSTRAINT fk_commission_commission_type FOREIGN KEY (type_id) REFERENCES "type".commission_type (id);
 
 ALTER TABLE core.invoice
     ADD CONSTRAINT fk_invoice_merchant FOREIGN KEY (merchant_id) REFERENCES core.merchant (id) ON DELETE RESTRICT;
