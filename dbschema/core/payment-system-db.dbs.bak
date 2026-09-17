@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="payment-system-db" database="PostgreSQL" id="0277c406-5afc-402d-9aa7-839fd2f9b5cc" >
+	<schema name="core" >
+		<table name="commission" prior="commissio" spec="" >
+			<column name="id" type="bigint" mandatory="y" >
+				<identity><![CDATA[GENERATED ALWAYS  AS IDENTITY]]></identity>
+			</column>
+			<column name="version" type="integer" mandatory="y" >
+				<defo><![CDATA[0]]></defo>
+			</column>
+			<column name="merchant_id" type="bigint" mandatory="y" />
+			<column name="type_id" type="bigint" mandatory="y" />
+			<column name="fee_value" type="decimal" length="10" decimal="2" mandatory="y" />
+			<column name="created_at" type="timestamptz" mandatory="y" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+			</column>
+			<column name="is_active" type="boolean" mandatory="y" >
+				<defo><![CDATA[TRUE]]></defo>
+			</column>
+			<index name="pk_commission" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="idx_commission_merchant_date" unique="NORMAL" >
+				<column name="merchant_id" />
+				<column name="created_at" options=" DESC  " />
+			</index>
+			<fk name="fk_commission_merchant" to_schema="core" to_table="merchant" delete_action="restrict" >
+				<fk_column name="merchant_id" pk="id" />
+			</fk>
+			<fk name="fk_commission_commission_type" to_schema="type" to_table="commission_type" >
+				<fk_column name="type_id" pk="id" />
+			</fk>
+		</table>
+		<table name="commission_calc" prior="commission_cal" >
+			<column name="id" type="bigint" mandatory="y" >
+				<identity><![CDATA[GENERATED ALWAYS  AS IDENTITY]]></identity>
+			</column>
+			<column name="version" type="integer" mandatory="y" >
+				<defo><![CDATA[0]]></defo>
+			</column>
+			<column name="invoice_id" prior="invoidce_id" type="bigint" mandatory="y" />
+			<column name="commission_id" type="bigint" mandatory="y" />
+			<column name="commission_amount" type="decimal" length="10" decimal="2" mandatory="y" />
+			<column name="created_at" type="timestamptz" mandatory="y" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+			</column>
+			<column name="is_active" type="boolean" mandatory="y" >
+				<defo><![CDATA[TRUE]]></defo>
+			</column>
+			<index name="pk_commission_calc" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="fk_commission_calc_invoice" to_schema="core" to_table="invoice" >
+				<fk_column name="invoice_id" pk="id" />
+			</fk>
+			<fk name="fk_commission_calc_commission" to_schema="core" to_table="commission" >
+				<fk_column name="commission_id" pk="id" />
+			</fk>
+		</table>
+		<table name="invoice" prior="invoi" >
+			<column name="id" type="bigint" mandatory="y" >
+				<identity><![CDATA[GENERATED ALWAYS  AS IDENTITY]]></identity>
+			</column>
+			<column name="version" type="integer" mandatory="y" >
+				<defo><![CDATA[0]]></defo>
+			</column>
+			<column name="merchant_id" type="bigint" mandatory="y" />
+			<column name="status_id" type="bigint" mandatory="y" />
+			<column name="amount" type="decimal" length="10" decimal="2" mandatory="y" />
+			<column name="currency_id" type="bigint" mandatory="y" />
+			<column name="paid_at" type="timestamptz" />
+			<column name="created_at" type="timestamptz" mandatory="y" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+			</column>
+			<column name="is_active" type="boolean" mandatory="y" >
+				<defo><![CDATA[TRUE]]></defo>
+			</column>
+			<index name="pk_invoice" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="idx_invoices_merchant_created" unique="NORMAL" >
+				<column name="merchant_id" />
+				<column name="created_at" options=" DESC  " />
+			</index>
+			<fk name="fk_invoice_invoice_status" to_schema="status" to_table="invoice_status" >
+				<fk_column name="status_id" pk="id" />
+			</fk>
+			<fk name="fk_invoice_merchant" to_schema="core" to_table="merchant" delete_action="restrict" >
+				<fk_column name="merchant_id" pk="id" />
+			</fk>
+			<fk name="fk_invoice_ref_currency" to_schema="reference" to_table="ref_currency" >
+				<fk_column name="currency_id" pk="id" />
+			</fk>
+		</table>
+		<table name="merchant" prior="merchants" >
+			<column name="id" type="bigint" mandatory="y" >
+				<identity><![CDATA[GENERATED ALWAYS  AS IDENTITY]]></identity>
+			</column>
+			<column name="version" type="integer" mandatory="y" >
+				<defo><![CDATA[0]]></defo>
+			</column>
+			<column name="name" type="varchar" length="128" mandatory="y" />
+			<column name="email" type="varchar" length="255" mandatory="y" />
+			<column name="status_id" type="bigint" mandatory="y" />
+			<column name="created_at" type="timestamptz" mandatory="y" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+			</column>
+			<column name="is_active" type="boolean" mandatory="y" >
+				<defo><![CDATA[TRUE]]></defo>
+			</column>
+			<index name="pk_merchant" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="fk_merchant_merchant_status" to_schema="status" to_table="merchant_status" >
+				<fk_column name="status_id" pk="id" />
+			</fk>
+		</table>
+	</schema>
+	<schema name="reference" >
+		<table name="ref_currency" prior="ref_currenc" >
+			<column name="id" type="bigint" mandatory="y" >
+				<identity><![CDATA[GENERATED ALWAYS  AS IDENTITY]]></identity>
+			</column>
+			<column name="version" type="integer" mandatory="y" >
+				<defo><![CDATA[0]]></defo>
+			</column>
+			<column name="alphabetic_code" type="varchar" length="3" mandatory="y" />
+			<column name="numeric_code" type="varchar" length="3" mandatory="y" />
+			<column name="name" type="varchar" length="255" mandatory="y" />
+			<column name="decimals" type="smallint" mandatory="y" />
+			<column name="is_active" type="boolean" mandatory="y" >
+				<defo><![CDATA[TRUE]]></defo>
+			</column>
+			<index name="pk_ref_currency" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+	</schema>
+	<schema name="status" >
+		<table name="invoice_status" prior="invoice_statuse" >
+			<column name="id" type="bigint" mandatory="y" >
+				<identity><![CDATA[GENERATED ALWAYS  AS IDENTITY]]></identity>
+			</column>
+			<column name="version" type="integer" mandatory="y" >
+				<defo><![CDATA[0]]></defo>
+			</column>
+			<column name="code" type="varchar" length="128" mandatory="y" />
+			<column name="name" type="varchar" length="255" mandatory="y" />
+			<column name="is_active" type="boolean" mandatory="y" >
+				<defo><![CDATA[TRUE]]></defo>
+			</column>
+			<index name="pk_invoice_status" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<table name="merchant_status" prior="merchant_stat" >
+			<column name="id" type="bigint" mandatory="y" >
+				<identity><![CDATA[GENERATED ALWAYS  AS IDENTITY]]></identity>
+			</column>
+			<column name="version" type="integer" mandatory="y" >
+				<defo><![CDATA[0]]></defo>
+			</column>
+			<column name="code" type="varchar" length="128" mandatory="y" />
+			<column name="name" type="varchar" length="128" mandatory="y" />
+			<column name="is_active" type="boolean" mandatory="y" >
+				<defo><![CDATA[TRUE]]></defo>
+			</column>
+			<index name="pk_merchant_status" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+	</schema>
+	<schema name="type" >
+		<table name="commission_type" prior="commission_tye" >
+			<column name="id" type="bigint" mandatory="y" >
+				<identity><![CDATA[GENERATED ALWAYS  AS IDENTITY]]></identity>
+			</column>
+			<column name="version" type="integer" mandatory="y" >
+				<defo><![CDATA[0]]></defo>
+			</column>
+			<column name="code" type="varchar" length="32" mandatory="y" />
+			<column name="name" type="varchar" length="255" mandatory="y" />
+			<column name="is_active" type="boolean" mandatory="y" >
+				<defo><![CDATA[TRUE]]></defo>
+			</column>
+			<index name="pk_commission_type" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+	</schema>
+	<diagram_group name="Default" id="9c418822-a613-45e9-aed3-1be547adbf2b" >
+		<diagram name="Default Diagram" id="d615452a-b8db-484e-ba4c-2e5c5932e93d" show_relation="columns" >
+			<entity schema="core" name="commission" color="C1D8EE" x="589" y="380" />
+			<entity schema="core" name="commission_calc" color="C1D8EE" x="874" y="380" />
+			<entity schema="type" name="commission_type" color="C1D8EE" x="836" y="703" />
+			<entity schema="core" name="invoice" color="C1D8EE" x="399" y="380" />
+			<entity schema="status" name="invoice_status" color="C1D8EE" x="285" y="703" />
+			<entity schema="core" name="merchant" color="C1D8EE" x="171" y="380" />
+			<entity schema="status" name="merchant_status" color="C1D8EE" x="57" y="703" />
+			<entity schema="reference" name="ref_currency" color="C1D8EE" x="76" y="969" />
+			<callout x="57" y="95" pointer="Round" >
+				<comment><![CDATA[- Right-click the diagram to create new tables. 
+- Double-click table headers to edit. 
+- Get a better understanding of the schema by creating multiple diagrams.
+- Save the design to the model file, and deploy from 'Schema / Create into the database'.]]></comment>
+			</callout>
+			<group name="type schema" color="FF6666" >
+				<entity schema="type" name="commission_type" />
+			</group>
+			<group name="status schema" color="FFE680" >
+				<entity schema="status" name="invoice_status" />
+				<entity schema="status" name="merchant_status" />
+			</group>
+			<group name="ref schema" color="804D80" >
+				<entity schema="reference" name="ref_currency" />
+			</group>
+			<group name="core schema" color="80B380" >
+				<entity schema="core" name="commission" />
+				<entity schema="core" name="commission_calc" />
+				<entity schema="core" name="invoice" />
+				<entity schema="core" name="merchant" />
+			</group>
+		</diagram>
+	</diagram_group>
+</project>

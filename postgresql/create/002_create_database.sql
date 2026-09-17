@@ -1,0 +1,1 @@
+CREATE DATABASE payment_system_db WITH OWNER = payment_app_user;

@@ -1,0 +1,1 @@
+CREATE USER payment_app_user WITH PASSWORD 'payment_app';
