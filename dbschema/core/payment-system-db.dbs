@@ -3,7 +3,7 @@
 	<schema name="core" >
 		<table name="commission" prior="commissio" spec="" >
 			<column name="id" type="bigint" mandatory="y" >
-				<identity><![CDATA[GENERATED ALWAYS  AS IDENTITY]]></identity>
+				<identity><![CDATA[GENERATED ALWAYS  AS IDENTITY ( )]]></identity>
 			</column>
 			<column name="version" type="integer" mandatory="y" >
 				<defo><![CDATA[0]]></defo>
@@ -33,14 +33,16 @@
 		</table>
 		<table name="commission_calc" prior="commission_cal" >
 			<column name="id" type="bigint" mandatory="y" >
-				<identity><![CDATA[GENERATED ALWAYS  AS IDENTITY]]></identity>
+				<identity><![CDATA[GENERATED ALWAYS  AS IDENTITY ( )]]></identity>
 			</column>
 			<column name="version" type="integer" mandatory="y" >
 				<defo><![CDATA[0]]></defo>
 			</column>
 			<column name="invoice_id" prior="invoidce_id" type="bigint" mandatory="y" />
 			<column name="commission_id" type="bigint" mandatory="y" />
-			<column name="commission_amount" type="decimal" length="10" decimal="2" mandatory="y" />
+			<column name="commission_amount" type="decimal" length="10" decimal="2" mandatory="y" >
+				<defo><![CDATA[0.00]]></defo>
+			</column>
 			<column name="created_at" type="timestamptz" mandatory="y" >
 				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
 			</column>
@@ -59,7 +61,7 @@
 		</table>
 		<table name="invoice" prior="invoi" >
 			<column name="id" type="bigint" mandatory="y" >
-				<identity><![CDATA[GENERATED ALWAYS  AS IDENTITY]]></identity>
+				<identity><![CDATA[GENERATED ALWAYS  AS IDENTITY ( )]]></identity>
 			</column>
 			<column name="version" type="integer" mandatory="y" >
 				<defo><![CDATA[0]]></defo>
@@ -94,7 +96,7 @@
 		</table>
 		<table name="merchant" prior="merchants" >
 			<column name="id" type="bigint" mandatory="y" >
-				<identity><![CDATA[GENERATED ALWAYS  AS IDENTITY]]></identity>
+				<identity><![CDATA[GENERATED ALWAYS  AS IDENTITY ( )]]></identity>
 			</column>
 			<column name="version" type="integer" mandatory="y" >
 				<defo><![CDATA[0]]></defo>
@@ -119,7 +121,7 @@
 	<schema name="reference" >
 		<table name="ref_currency" prior="ref_currenc" >
 			<column name="id" type="bigint" mandatory="y" >
-				<identity><![CDATA[GENERATED ALWAYS  AS IDENTITY]]></identity>
+				<identity><![CDATA[GENERATED ALWAYS  AS IDENTITY ( )]]></identity>
 			</column>
 			<column name="version" type="integer" mandatory="y" >
 				<defo><![CDATA[0]]></defo>
@@ -139,7 +141,7 @@
 	<schema name="status" >
 		<table name="invoice_status" prior="invoice_statuse" >
 			<column name="id" type="bigint" mandatory="y" >
-				<identity><![CDATA[GENERATED ALWAYS  AS IDENTITY]]></identity>
+				<identity><![CDATA[GENERATED ALWAYS  AS IDENTITY ( )]]></identity>
 			</column>
 			<column name="version" type="integer" mandatory="y" >
 				<defo><![CDATA[0]]></defo>
@@ -155,7 +157,7 @@
 		</table>
 		<table name="merchant_status" prior="merchant_stat" >
 			<column name="id" type="bigint" mandatory="y" >
-				<identity><![CDATA[GENERATED ALWAYS  AS IDENTITY]]></identity>
+				<identity><![CDATA[GENERATED ALWAYS  AS IDENTITY ( )]]></identity>
 			</column>
 			<column name="version" type="integer" mandatory="y" >
 				<defo><![CDATA[0]]></defo>
@@ -173,7 +175,7 @@
 	<schema name="type" >
 		<table name="commission_type" prior="commission_tye" >
 			<column name="id" type="bigint" mandatory="y" >
-				<identity><![CDATA[GENERATED ALWAYS  AS IDENTITY]]></identity>
+				<identity><![CDATA[GENERATED ALWAYS  AS IDENTITY ( )]]></identity>
 			</column>
 			<column name="version" type="integer" mandatory="y" >
 				<defo><![CDATA[0]]></defo>
@@ -188,7 +190,7 @@
 			</index>
 		</table>
 	</schema>
-	<diagram_group name="Default" id="9c418822-a613-45e9-aed3-1be547adbf2b" >
+	<diagram_group name="Default" id="2927173c-5d38-4bfd-bbf2-f4f23650db95" >
 		<diagram name="Default Diagram" id="d615452a-b8db-484e-ba4c-2e5c5932e93d" show_relation="columns" >
 			<entity schema="core" name="commission" color="C1D8EE" x="589" y="380" />
 			<entity schema="core" name="commission_calc" color="C1D8EE" x="874" y="380" />
