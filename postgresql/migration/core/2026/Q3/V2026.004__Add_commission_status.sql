@@ -16,7 +16,7 @@ ALTER TABLE core.commission
     ADD COLUMN IF NOT EXISTS status_id bigint;
 
 UPDATE core.commission
-SET status_id = (SELECT id FROM status.commission_status WHERE code = 'ACTIVE')
+SET status_id = (SELECT id FROM status.commission_status WHERE code = 'INACTIVE')
 WHERE status_id IS NULL;
 
 ALTER TABLE core.commission
