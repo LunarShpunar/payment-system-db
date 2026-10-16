@@ -9,6 +9,7 @@
 				<defo><![CDATA[0]]></defo>
 			</column>
 			<column name="merchant_id" type="bigint" mandatory="y" />
+			<column name="status_id" type="bigint" mandatory="y" />
 			<column name="type_id" type="bigint" mandatory="y" />
 			<column name="fee_value" type="decimal" length="10" decimal="2" mandatory="y" />
 			<column name="created_at" type="timestamptz" mandatory="y" >
@@ -29,6 +30,9 @@
 			</fk>
 			<fk name="fk_commission_commission_type" to_schema="type" to_table="commission_type" >
 				<fk_column name="type_id" pk="id" />
+			</fk>
+			<fk name="fk_commission_commission_status" to_schema="status" to_table="commission_status" >
+				<fk_column name="status_id" pk="id" />
 			</fk>
 		</table>
 		<table name="commission_calc" prior="commission_cal" >
@@ -139,6 +143,18 @@
 		</table>
 	</schema>
 	<schema name="status" >
+		<table name="commission_status" prior="commisision_status" >
+			<column name="id" type="bigint" mandatory="y" />
+			<column name="version" type="integer" mandatory="y" />
+			<column name="code" type="varchar" length="128" mandatory="y" />
+			<column name="name" type="varchar" length="128" mandatory="y" />
+			<column name="is_active" type="boolean" mandatory="y" >
+				<defo><![CDATA[TRUE]]></defo>
+			</column>
+			<index name="pk_commission_status" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
 		<table name="invoice_status" prior="invoice_statuse" >
 			<column name="id" type="bigint" mandatory="y" >
 				<identity><![CDATA[GENERATED ALWAYS  AS IDENTITY ( )]]></identity>
@@ -190,13 +206,14 @@
 			</index>
 		</table>
 	</schema>
-	<diagram_group name="Default" id="2927173c-5d38-4bfd-bbf2-f4f23650db95" >
+	<diagram_group name="Default" id="0ebf1ae9-7a87-4bc9-b842-2432519677d9" >
 		<diagram name="Default Diagram" id="d615452a-b8db-484e-ba4c-2e5c5932e93d" show_relation="columns" >
 			<entity schema="core" name="commission" color="C1D8EE" x="589" y="380" />
 			<entity schema="core" name="commission_calc" color="C1D8EE" x="874" y="380" />
+			<entity schema="status" name="commission_status" color="C1D8EE" x="418" y="703" />
 			<entity schema="type" name="commission_type" color="C1D8EE" x="836" y="703" />
 			<entity schema="core" name="invoice" color="C1D8EE" x="399" y="380" />
-			<entity schema="status" name="invoice_status" color="C1D8EE" x="285" y="703" />
+			<entity schema="status" name="invoice_status" color="C1D8EE" x="247" y="703" />
 			<entity schema="core" name="merchant" color="C1D8EE" x="171" y="380" />
 			<entity schema="status" name="merchant_status" color="C1D8EE" x="57" y="703" />
 			<entity schema="reference" name="ref_currency" color="C1D8EE" x="76" y="969" />
@@ -210,6 +227,7 @@
 				<entity schema="type" name="commission_type" />
 			</group>
 			<group name="status schema" color="FFE680" >
+				<entity schema="status" name="commission_status" />
 				<entity schema="status" name="invoice_status" />
 				<entity schema="status" name="merchant_status" />
 			</group>
